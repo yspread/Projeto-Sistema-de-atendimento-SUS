@@ -1,7 +1,5 @@
 #ifndef HISTORICO_H
     #define HISTORICO_H
-    
-    #include <stdbool.h>
 
     typedef struct historico_ HISTORICO;
 

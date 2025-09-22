@@ -12,24 +12,24 @@ bool SAVE(LISTA *lista, FILA *fila) {
     if(!lista || !fila) 
         return false;
     
-    PACIENTE *it; // Variável auxiliar 
+    PACIENTE *paciente; // Variável auxiliar 
 
     // Salvando os itens da lista
 
-    FILE *fp_lista = fopen("lista_itens.bin", "wb");
+    FILE *fp_lista = fopen("lista.bin", "wb");
     if(!fp_lista)
         return false;
 
-    it = apagar_paciente_lista(lista);
+    paciente = apagar_paciente_lista(lista);
     int chave;
-    while(it != NULL) { // Se mantém no while enquanto a lista não estiver vazia
+    while(paciente != NULL) { // Se mantém no while enquanto a lista não estiver vazia
         // Escreve a chave no arquivo
-        chave = get_ID(it);
+        chave = get_ID(paciente);
         fwrite(&chave, sizeof(int), 1, fp_lista);
         // Apaga o item removido
-        apagar_paciente(&it);
+        apagar_paciente(&paciente);
         // Atualiza a variável auxiliar
-        it = apagar_paciente_lista(lista);
+        paciente = apagar_paciente_lista(lista, chave);
     }
     // Libera memória
     apagar_lista(&lista);
@@ -37,19 +37,19 @@ bool SAVE(LISTA *lista, FILA *fila) {
 
     // Salvando os itens da fila
 
-    FILE *fp_fila = fopen("fila_itens.bin", "wb");
+    FILE *fp_fila = fopen("fila.bin", "wb");
     if(!fp_fila)
         return false;
 
-    it = chamar_para_atendimento(fila);
-    while(it != NULL) { // Se mantém no while enquanto a fila não estiver vazia
+    paciente = chamar_para_atendimento(fila);
+    while(paciente != NULL) { // Se mantém no while enquanto a fila não estiver vazia
         // Escreve a chave no arquivo
-        chave = get_ID(it);
+        chave = get_ID(paciente);
         fwrite(&chave, sizeof(int), 1, fp_fila);
         // Apaga o item removido
-        apagar_paciente(&it);
+        apagar_paciente(&paciente);
         // Atualiza a variável auxiliar
-        it = chamar_para_atendimento(fila);
+        paciente = chamar_para_atendimento(fila);
     }
     // Libera memória
     apagar_fila(&fila);
@@ -66,27 +66,27 @@ bool LOAD(LISTA **lista, FILA **fila) {
 
     // Carregando os itens do arquivo na lista
 
-    FILE *fp_lista = fopen("lista_itens.bin", "rb");
+    FILE *fp_lista = fopen("lista.bin", "rb");
     if(!fp_lista)
         return false;
 
     // Lê as chaves até o fim do arquivo
     while(fread(&chave, sizeof(int), 1, fp_lista) == 1) {
-        PACIENTE *it = criar_paciente(chave);
-        LISTA_inserir(*lista, it);
+        PACIENTE *paciente = criar_paciente(chave);
+        LISTA_inserir(*lista, chave);
     }
     fclose(fp_lista); // Libera memória
 
     // Carregando os itens do arquivo na fila
 
-    FILE *fp_fila = fopen("fila_itens.bin", "rb");
+    FILE *fp_fila = fopen("fila.bin", "rb");
     if(!fp_fila)
         return false;
 
     // Lê as chaves até o fim do arquivo
     while(fread(&chave, sizeof(int), 1, fp_fila) == 1) {
-        PACIENTE *it = criar_paciente(chave);
-        inserir_paciente_triagem(*fila, it);
+        PACIENTE *paciente = criar_paciente(chave);
+        inserir_paciente_triagem(*fila, paciente);
     }
     fclose(fp_fila); // Libera memória
 
