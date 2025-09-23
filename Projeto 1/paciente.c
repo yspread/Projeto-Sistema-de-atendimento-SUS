@@ -41,7 +41,7 @@ bool apagar_paciente(PACIENTE **paciente)
     return false;
 }
 
-bool criar_paciente(int id, char *nome, HISTORICO *historico)
+PACIENTE* criar_paciente(int id, char *nome) //funcao para criar um paciente
 {
     PACIENTE *paciente;
 
@@ -50,8 +50,8 @@ bool criar_paciente(int id, char *nome, HISTORICO *historico)
     {
         paciente->ID = id;
         strcopy(paciente->nome, nome);
-        paciente->historico = historico;
-        return (paciente);
+        paciente->historico = criar_historico();
+        return paciente;
     }
-    return (NULL);
+    return NULL;
 }

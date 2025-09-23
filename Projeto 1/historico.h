@@ -11,6 +11,6 @@
     bool retirar_procedimento(HISTORICO* historico); //desempilhar
     bool historico_cheio();
     bool historico_vazio(HISTORICO* historico);
-    //função save e load aqui nao, vai estar no save e load lista
+    int get_tamanho_historico(HISTORICO* historico); //para obter o tamanho do historico
 
 #endif

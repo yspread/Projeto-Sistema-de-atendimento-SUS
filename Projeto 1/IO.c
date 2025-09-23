@@ -19,8 +19,9 @@ bool SAVE(LISTA *lista, FILA *fila) {
     FILE *fp_lista = fopen("lista.bin", "wb");
     if(!fp_lista)
         return false;
-
-    paciente = apagar_paciente_lista(lista);
+    PACIENTE *primeiro_paciente = lista->inicio->paciente;
+    int ID = get_ID(primeiro_paciente);
+    paciente = apagar_paciente_lista(lista, ID);
     int chave;
     while(paciente != NULL) { // Se mantém no while enquanto a lista não estiver vazia
         // Escreve a chave no arquivo
@@ -72,7 +73,8 @@ bool LOAD(LISTA **lista, FILA **fila) {
 
     // Lê as chaves até o fim do arquivo
     while(fread(&chave, sizeof(int), 1, fp_lista) == 1) {
-        PACIENTE *paciente = criar_paciente(chave);
+
+        PACIENTE *paciente = criar_paciente(chave, );
         LISTA_inserir(*lista, chave);
     }
     fclose(fp_lista); // Libera memória

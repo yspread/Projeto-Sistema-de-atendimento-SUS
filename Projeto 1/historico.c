@@ -8,15 +8,15 @@
 typedef struct no_
 {
     PROCEDIMENTO* procedimento;
-    NO* anterior;
-}NO;
+    NO_HIST* anterior;
+}NO_HIST;
 
 
 typedef struct historico_
 {
     int ContadorChars; //contador para ver se a quantidade de char do historico estourou o limite (100)
     int ContadorProcedimentos; //contador para ver se a quantidade de procedimentos do historico estourou o limite (10)
-    NO* topo;
+    NO_HIST* topo;
 }HISTORICO;
 
 HISTORICO* criar_historico()
@@ -43,7 +43,7 @@ void apagar_historico(HISTORICO** historico)
 
 void print_historico(HISTORICO* historico)
 {
-    NO* p = historico->topo;
+    NO_HIST* p = historico->topo;
     while(p != NULL){
         print_procedimento(p->procedimento);
         p = p->anterior;
@@ -53,7 +53,7 @@ void print_historico(HISTORICO* historico)
 bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
 {
     if(historico->ContadorChars + procedimento_tamanho(procedimento) <= 100 && historico->ContadorProcedimentos < 10){
-        NO* p = malloc(sizeof(NO));
+        NO_HIST* p = malloc(sizeof(NO_HIST));
         if(p != NULL){
             p->procedimento = procedimento;
             p->anterior = historico->topo;
@@ -69,7 +69,7 @@ bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
 bool retirar_procedimento(HISTORICO* historico)
 {
     if(historico != NULL && !historico_vazio(historico)){
-        NO* p = historico->topo;
+        NO_HIST* p = historico->topo;
         PROCEDIMENTO* procedimento = p->procedimento;
 
         historico->topo = historico->topo->anterior;

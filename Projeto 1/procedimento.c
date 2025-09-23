@@ -46,3 +46,10 @@ void print_procedimento(PROCEDIMENTO* p)
 {
     printf("%s\n", p->nome);
 }
+
+char* get_nome_procedimento(PROCEDIMENTO* p) { //funcao para obter o nome do procedimento
+    if (p != NULL) {
+        return p->nome;
+    }
+    return NULL;
+}
