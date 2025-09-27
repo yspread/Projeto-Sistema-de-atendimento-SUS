@@ -12,6 +12,7 @@ typedef struct paciente_
 {
     int ID;
     char nome[100];
+    int tamanhoNome;
     HISTORICO *historico;
 }PACIENTE;
 
@@ -28,6 +29,11 @@ HISTORICO *get_historico(PACIENTE *paciente) //função para retornar o historic
 char *get_nome(PACIENTE *paciente) //função para retornar o nome do paciente
 {
     return (paciente->nome);
+}
+
+int get_tamanho_nome(PACIENTE *paciente)
+{
+    return (paciente->tamanhoNome);
 }
 
 bool apagar_paciente(PACIENTE **paciente)
@@ -49,7 +55,8 @@ PACIENTE* criar_paciente(int id, char *nome) //funcao para criar um paciente
     if (paciente != NULL)
     {
         paciente->ID = id;
-        strcopy(paciente->nome, nome);
+        strcpy(paciente->nome, nome);
+        paciente->tamanhoNome = strlen(nome);
         paciente->historico = criar_historico();
         return paciente;
     }

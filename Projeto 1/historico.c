@@ -91,3 +91,8 @@ bool historico_vazio(HISTORICO* historico)
     }
     return false;
 }
+
+PROCEDIMENTO *get_topo(HISTORICO *historico)
+{
+    return (historico->topo->procedimento);
+}

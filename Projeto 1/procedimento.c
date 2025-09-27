@@ -42,6 +42,11 @@ int procedimento_tamanho(PROCEDIMENTO* p)
     return p->size;
 }
 
+char *procedimento_nome(PROCEDIMENTO *p)
+{
+    return p->nome;
+}
+
 void print_procedimento(PROCEDIMENTO* p)
 {
     printf("%s\n", p->nome);

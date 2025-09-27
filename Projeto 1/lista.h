@@ -1,6 +1,7 @@
 #ifndef LISTA_H
     #define LISTA_H
-
+    #include "paciente.h"
+    
     typedef struct no_ NO;
     typedef struct lista_ LISTA;
 
@@ -12,6 +13,7 @@
     PACIENTE *buscar_paciente(LISTA* lista, int ID);
     void listar_pacientes(LISTA* lista);
     bool lista_vazia(LISTA *lista); //necessaria para verificaçao na função apagar_lista
+    PACIENTE *remover_paciente_inicio_lista(LISTA *lista); //necessario para a função save load
 
     //bool save_lista();
     //bool load_lista();

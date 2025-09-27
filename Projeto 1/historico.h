@@ -9,8 +9,7 @@
     void print_historico(HISTORICO* historico); //consultar o historico de alguem pelo ID
     bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento); //empilhar
     bool retirar_procedimento(HISTORICO* historico); //desempilhar
-    bool historico_cheio();
     bool historico_vazio(HISTORICO* historico);
     int get_tamanho_historico(HISTORICO* historico); //para obter o tamanho do historico
-
+    PROCEDIMENTO *get_topo(HISTORICO *historico);
 #endif

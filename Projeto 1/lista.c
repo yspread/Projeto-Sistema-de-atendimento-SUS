@@ -117,6 +117,25 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
     }  
 }
 
+PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
+{
+    if (lista = NULL && lista_vazia(lista))
+    {
+        return NULL;
+    }
+    else
+    {
+        //nao apago o paciente na função pois ele é apagado apos ser salvo
+        NO *auxiliar = lista->inicio->proximo;
+        PACIENTE *pacienteAux = lista->inicio->paciente;
+        lista->inicio->paciente = NULL;
+        lista->inicio->proximo = NULL;
+        free(lista->inicio);
+        lista->inicio = auxiliar;
+        return (pacienteAux);
+    }
+}
+
 PACIENTE *buscar_paciente(LISTA *lista, int ID) //busca um paciente pelo ID fornecido
 {
     NO *procura; //itera pela lista
