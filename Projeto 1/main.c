@@ -9,10 +9,13 @@
 
 int main()
 {
-    /*
-    ANTES DE TUDO, DEVE-SE CRIAR A LISTA E A FILA E CARREGAR O ARQUIVO
-    */
-   
+    LISTA *lista = criar_lista();
+    FILA *fila = criar_fila();
+    if (load(&lista, &fila) == false)
+    {
+        printf("Não foi possível abrir os arquivos salvos.");
+    }
+    
     int comando;
     imprime_menu();
     while (true) //isso sempre vai acontecer enquanto o programa roda, a nao ser no caso 8, que ai finaliza a função
@@ -52,7 +55,12 @@ int main()
             case 8: //sai o sistema
             {
                 printf("Saindo do sistema.");
-                //inserir aqui o salvamento
+                if (save(lista, fila) == false)
+                {
+                    printf("Não foi possível salvar a lista e a fila.");
+                    apagar_fila(fila);
+                    apagar_lista(&lista);
+                }
                 return 0;
             }
         
@@ -86,11 +94,6 @@ int main()
         so printar
     7- MOSTRAR HISTORICO DE ALGUEM
         puxar pelo ID
-    8- SAIR
-        a interface deve continuar sendo apresentada pro usuario enquanto ele nao chamar pela saida
-        SALVAR TUDO (lista, fila, historicos)
-        ou fazer TAD proprio
-        ou adicionar save e load em cada TAD
     */
 }
 
@@ -104,6 +107,6 @@ void imprime_menu()
     printf("5. Chamar paciente para atendimento\n");
     printf("6. Mostrar fila de espera\n");
     printf("7. Mostrar histórico do paciente\n");
-    printf("8. Sair\n");
+    printf("8. Sair\n\n");
     return;
 }

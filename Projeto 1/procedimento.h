@@ -5,5 +5,6 @@
     PROCEDIMENTO* criar_procedimento(char* str);
     void apagar_procedimento(PROCEDIMENTO** p);
     int procedimento_tamanho(PROCEDIMENTO* p);
-    char *procedimento_nome(PROCEDIMENTO *p);
+    char *get_nome_procedimento(PROCEDIMENTO *p);
+    int get_size(PROCEDIMENTO *p);
 #endif

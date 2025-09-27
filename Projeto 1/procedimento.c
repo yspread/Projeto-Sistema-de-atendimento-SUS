@@ -8,11 +8,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-struct procedimento_
+typedef struct procedimento_
 {
     char* nome;
     int size;
-};
+}PROCEDIMENTO;
 
 PROCEDIMENTO* criar_procedimento(char* str)
 {
@@ -42,11 +42,6 @@ int procedimento_tamanho(PROCEDIMENTO* p)
     return p->size;
 }
 
-char *procedimento_nome(PROCEDIMENTO *p)
-{
-    return p->nome;
-}
-
 void print_procedimento(PROCEDIMENTO* p)
 {
     printf("%s\n", p->nome);
@@ -57,4 +52,9 @@ char* get_nome_procedimento(PROCEDIMENTO* p) { //funcao para obter o nome do pro
         return p->nome;
     }
     return NULL;
+}
+
+int get_size(PROCEDIMENTO *p)
+{
+    return(p->size);
 }

@@ -26,8 +26,9 @@ HISTORICO* criar_historico()
         historico->topo = NULL;
         historico->ContadorChars = 0;
         historico->ContadorProcedimentos = 0;
+        return historico;
     }
-    return historico;
+    return NULL;
 }
 
 void apagar_historico(HISTORICO** historico)
@@ -66,7 +67,7 @@ bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
     return false;
 }
 
-bool retirar_procedimento(HISTORICO* historico)
+bool retirar_procedimento(HISTORICO* historico) //desempilhar
 {
     if(historico != NULL && !historico_vazio(historico)){
         NO_HIST* p = historico->topo;
@@ -95,4 +96,9 @@ bool historico_vazio(HISTORICO* historico)
 PROCEDIMENTO *get_topo(HISTORICO *historico)
 {
     return (historico->topo->procedimento);
+}
+
+int get_tamanho_historico(HISTORICO* historico)
+{
+    return (historico->ContadorProcedimentos);
 }

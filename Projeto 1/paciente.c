@@ -40,6 +40,10 @@ bool apagar_paciente(PACIENTE **paciente)
 {
     if (*paciente != NULL)
     {
+        if(get_historico(*paciente) != NULL)
+        {
+            apagar_historico(get_historico(*paciente));
+        }
         free(*paciente);
         *paciente = NULL;
         return (true);
