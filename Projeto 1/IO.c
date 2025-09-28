@@ -93,7 +93,7 @@ bool save(LISTA *lista, FILA *fila)
         apagar_paciente(paciente);
         paciente = chamar_para_atendimento(fila);
     }
-    apagar_fila(fila);
+    apagar_fila(&fila);
     fclose(fp_fila);
     fp_fila = NULL;
     return true;

@@ -39,7 +39,7 @@ void apagar_lista(LISTA **lista) //apaga a lista ao fechar o sistema apos salvar
     NO *auxiliar;
     if ((*lista != NULL) && (!lista_vazia(*lista))) //se a lista nao esta vazia
     {
-        while ((*lista)->fim != NULL) //vou percorrer a lista do inicio ao fim, itera enquanto o fim nao foi apagado ainda
+        while ((*lista)->inicio != NULL) //vou percorrer a lista do inicio ao fim, itera enquanto o fim nao foi apagado ainda
         {
             auxiliar = (*lista)->inicio; //itero pela lista com o proprio ponteiro inicio
             (*lista)->inicio = (*lista)->inicio->proximo; //passo o inicio para o proximo no

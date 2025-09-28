@@ -6,7 +6,7 @@
 
     //funçoes relativas a FILA para triagem na sala de emergência
     FILA *criar_fila(void);
-    void apagar_fila(FILA *fila); 
+    void apagar_fila(FILA **fila); 
     bool inserir_paciente_triagem(FILA *fila, PACIENTE *paciente);
     PACIENTE* chamar_para_atendimento(FILA *fila);
     int fila_get_tamanho(FILA *fila);

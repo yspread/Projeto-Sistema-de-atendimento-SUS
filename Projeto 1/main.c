@@ -82,11 +82,60 @@ int main()
 
             case 3:
             {
+                printf("Digite o ID do paciente a adicionar um procedimento no historico:\n");
+                int id;
+                scanf("%d", id);
+                PACIENTE *paciente = buscar_paciente(lista, id);
+                if (paciente == NULL)
+                {
+                    printf("Nao existe um paciente com esse ID em nosso sistema\n");
+                }
+                else
+                {
+                    char *texto;
+                    printf("Digite o procedimento a ser adicionado\n");
+                    scanf("%s", texto);
+                    PROCEDIMENTO *procedimento = criar_procedimento(texto);
+                    if (inserir_procedimento(get_historico(paciente), procedimento))
+                    {
+                        printf("Procedimento inserido no historico do paciente com sucesso\n");
+                    }
+                    else
+                    {
+                        printf("Nao foi possivel inserir o procedimento.\n");
+                    }
+                }
                 break;
             }
 
             case 4:
             {
+                printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente).\n");
+                int id;
+                scanf("%d", id);
+                PACIENTE *paciente = buscar_paciente(lista, id);
+                if (paciente == NULL)
+                {
+                    printf("Nao existe um paciente com esse ID em nosso sistema\n");
+                }
+                else
+                {
+                    if (historico_vazio(get_historico(paciente)))
+                    {
+                        printf("O historico do paciente esta vazio.\n");
+                    }
+                    else
+                    {
+                        if (retirar_procedimento(get_historico(paciente)))
+                        {
+                            printf("Procedimento retirado com sucesso.\n");
+                        }
+                        else
+                        {
+                            printf("Não foi possivel retirar o procedimento.\n");
+                        }
+                    }    
+                }
                 break;
             }
 

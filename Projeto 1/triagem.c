@@ -64,17 +64,23 @@ PACIENTE *chamar_para_atendimento(FILA *fila) { //o paciente que esta no inicio 
 }
 
 
-void apagar_fila(FILA *fila)  { //para apagar a fila, vamos desfazer todos o NOS que a compoem e dar free neles e na estrutura da fila em si, sem a perda de informacoes dos pacientes
-    if (fila == NULL) {
-        return; //se a fila nao existir, a operacao eh impossivel, entao apenas retorna
+void apagar_fila(FILA **fila) //apaga a fila ao fechar o sistema apos salvar no disco os dados
+{
+    NO *auxiliar;
+    if ((*fila != NULL) && (!fila_vazia(*fila))) //verifica se a fila nao esta vazia
+    {
+        while ((*fila)->inicio != NULL) //vamos percorrer a fila do inicio ao fim, itera enquanto o fim nao foi apagado ainda
+        {
+            auxiliar = (*fila)->inicio; //itero pela lista com o proprio ponteiro inicio
+            (*fila)->inicio = (*fila)->inicio->proximo; //passa o inicio para o proximo no
+            chamar_para_atendimento(*fila); //apaga o paciente contido no no auxiliar
+            auxiliar->proximo = NULL; //apaga o ponteiro
+            free (auxiliar);
+            auxiliar = NULL;
+        }
     }
-    while (!fila_vazia(fila)) {  //vamos percorrer todos os NOS da fila para desfaze-los, efetivamente retirando as pessoas da fila ate que ela fique vazia
-        NO *aux = fila->inicio;   //para isso, vamos usar uma logica parecida com a da funcao chamar_para_atendimento, utilizando um NO auxiliar para nao perder informacoes
-        fila->inicio = aux->proximo; //quando so houver 1 paciente restando, este passo fara com que o inicio aponte para NULL, e o proximo free(aux) decretara a liberacao de todos os NOS da fila
-        free(aux);
-        fila->tamanho--;
-    }
-    free(fila); //agora que a fila esta vazia e nao ha mais NOS na fila, podemos libera-la
+    free (*fila);
+    *fila = NULL;
 }
 
 bool fila_vazia(FILA *fila)  {
