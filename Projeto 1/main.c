@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+void imprime_menu();
+
 int main()
 {
     LISTA *lista = criar_lista();
@@ -25,39 +27,110 @@ int main()
         switch (comando)
         {
             case 1: //registrar paciente
-            /* code */
-            break;
+            {
+                int id;
+                char *nome;
+                PACIENTE *paciente;
+                printf("Digite o ID do paciente:\n");
+                scanf("%d", id);
+                if (buscar_paciente(lista, id) == NULL)
+                {
+                    printf("Digite o nome do paciente:\n");
+                    scanf("%s", nome);
+                    paciente = criar_paciente(id, nome);
+                    if (paciente == NULL)
+                    {
+                        printf("Nao foi possivel registrar o paciente.\n");
+                    }
+                    else
+                    {
+                        inserir_paciente_lista(lista, paciente);
+                        printf("Paciente registrado com sucesso\n");
+                    }
+                }
+                else
+                {
+                    printf("Paciente já registrado.\n");
+                }
+                if (fila_cheia(fila) == false)
+                {
+                    inserir_paciente_triagem(fila, paciente);
+                    printf("Paciente inserido na fila para a triagem.\n");
+                }
+                else
+                {
+                    printf("Fila cheia! Nao foi possivel adicionar o paciente na fila\n");
+                }
+                break;
+            }
 
-            case 2: //registrar paciente
-            /* code */
-            break;
+            case 2: //registrar obito do paciente
+            {
+                printf("Digite o ID do paciente a ser removido da lista:\n");
+                int id;
+                scanf("%d", id);
+                if (!apagar_paciente_lista(lista, id))
+                {
+                    printf("Não existe um paciente com esse id no sistema\n");
+                }
+                else
+                {
+                    printf("Paciente removido do sistema.\n");
+                }
+                break;
+            }
 
             case 3:
-            /* code */
-            break;
+            {
+                break;
+            }
 
             case 4:
-            /* code */
-            break;
-
-            case 5: //chamar para atendimento um paciente
             {
+                break;
+            }
 
+            case 5: //chamar o proximo da fila para atendimento
+            {
+                PACIENTE *paciente = chamar_para_atendimento(fila);
+                if (paciente == NULL)
+                {
+                    printf("A fila esta vazia.\n");
+                }
+                else
+                {
+                    int id = get_ID(paciente);
+                    char *nome = get_nome(paciente);
+                    printf("Paciente chamado para atendimento.\n");
+                    printf("Nome: %s", nome);
+                    printf("ID: %d", id);
+                }
+                break;
             }
             case 6:
-            /* code */
-            break;
+            {
+                //printar a fila de espera
+                fila_listar(fila);
+                break;
+            }
 
             case 7:
-            /* code */
-            break;
+            {
+                //printar o historico de um paciente pelo id
+                printf("Digite o id do paciente para ver seu histórico\n");
+                int id;
+                scanf("%d", id);
+                PACIENTE *paciente = buscar_paciente(lista, id);
+                print_historico(get_historico(paciente));
+                break;
+            }
 
             case 8: //sai o sistema
             {
-                printf("Saindo do sistema.");
+                printf("Saindo do sistema.\n");
                 if (save(lista, fila) == false)
                 {
-                    printf("Não foi possível salvar a lista e a fila.");
+                    printf("Não foi possível salvar a lista e a fila.\n");
                     apagar_fila(fila);
                     apagar_lista(&lista);
                 }
@@ -66,7 +139,7 @@ int main()
         
             default: //comando invalido inserido pelo usuario
             {
-                printf("Comando inválido!"); //se o comando for invalido, avisar, reenviar as opcoes e perguntar dnv
+                printf("Comando inválido!\n"); //se o comando for invalido, avisar, reenviar as opcoes e perguntar dnv
                 break;
             }
         }
@@ -74,26 +147,11 @@ int main()
     }
     /*
     INTERFACE DO USUARIO
-    1- REGISTRAR PACIENTE
-        se ele ja esta: inserir e botar na lista de espera(triagem)
-        se for repetido, avisar
-        DEVO CRIAR UM PACIENTE COM OS DADOS FORNECIDOS PELO USUARIO E AI INSERIR NA LISTA E NA FILA
-    2- REGISTRAR OBITO DO PACIENTE
-        se ele morrer, APAGAR REGISTRO DA LISTA
-        ele so morre se ja tiver sido chamado pra atendimento, entao nao precisa tirar da fila
-        reportar sucesso ou nao (nao entendi direito como isso nao daria certo, mas blz)
     3- ADICIONAR PROCEDIMENTO
     4- REMOVER PROCEDIMENTO
         esses 2 sao puxados pelo ID do paciente e adicionar
         informar oque foi adicionado/deletado
         informar caso nao exista o procedimento ou se o paciente nao existir
-    5- CHAMAR PARA ATENDIMENTO
-        tirar da fila
-        avisar se a fila estiver vazia
-    6- MOSTRAR FILA
-        so printar
-    7- MOSTRAR HISTORICO DE ALGUEM
-        puxar pelo ID
     */
 }
 

@@ -48,7 +48,7 @@ bool inserir_paciente_triagem(FILA *fila, PACIENTE *paciente)  {
     return (true);
 }
 
-void chamar_para_atendimento(FILA *fila) { //o paciente que esta no inicio da fila sera chamado para atendimento, entao deve ser tirado da fila e o proximo paciente agora esta no inicio
+PACIENTE *chamar_para_atendimento(FILA *fila) { //o paciente que esta no inicio da fila sera chamado para atendimento, entao deve ser tirado da fila e o proximo paciente agora esta no inicio
     if (fila == NULL || fila_vazia(fila)) {
         return (NULL); //se a fila nao existe ou esta vazia, nao eh possivel remover pacientes
     }
@@ -101,7 +101,7 @@ int fila_get_tamanho(FILA *fila) { //uma funcao simples para retornar o tamanho 
 
 void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
     if (fila == NULL) { //se a fila nao existe, nao ha o que listar
-        printf("Essa fila não existe");
+        printf("A fila nao existe.");
         return;
     }
     if (fila->tamanho == 0)  { //para caso a fila esteja vazia

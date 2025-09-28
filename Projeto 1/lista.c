@@ -114,7 +114,11 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
         {
             return false;
         }
-    }  
+    }
+    else
+    {
+        return false;
+    }
 }
 
 PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
