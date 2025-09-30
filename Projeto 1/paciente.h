@@ -1,6 +1,7 @@
 #ifndef PACIENTE_H
     #define PACIENTE_H
     #include <stdbool.h>
+    #include "historico.h"
 
     typedef struct paciente_ PACIENTE;
 
@@ -9,5 +10,6 @@
     char *get_nome(PACIENTE *paciente); //função para que eu consiga acessar o nome do paciente diretamente
     bool apagar_paciente(PACIENTE *paciente); //apaga paciente (necessário para o save load)
     PACIENTE* criar_paciente(int id, char* nome);
+    int get_tamanho_nome(PACIENTE *paciente);
     
 #endif

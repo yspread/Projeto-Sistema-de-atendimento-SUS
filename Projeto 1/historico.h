@@ -1,5 +1,6 @@
 #ifndef HISTORICO_H
     #define HISTORICO_H
+    #include "procedimento.h"
 
     typedef struct historico_ HISTORICO;
 

@@ -3,6 +3,7 @@
 #include "historico.h"
 #include "lista.h"
 #include "procedimento.h"
+#include "IO.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -53,7 +54,7 @@ bool save(LISTA *lista, FILA *fila)
             }
         }
         apagar_paciente(paciente); //agora que o paciente esta salvo, é apagado da memoria(apaga o historico junto)
-        paciente = remover_paciente_inicio_lista; //paciente agora é o proximo
+        paciente = remover_paciente_inicio_lista(lista); //paciente agora é o proximo
     }
     apagar_lista(&lista);
     fclose(fp_lista);

@@ -1,5 +1,5 @@
 all:
-	gcc main.c triagem.o historico.o lista.o procedimento.o paciente.o IO.o -Wall -std=c99
+	gcc main.c triagem.o historico.o lista.o procedimento.o paciente.o IO.o -Wall -std=c99 -pedantic-errors 
 
 clean:
 	rm -f *.o *.zip main
@@ -11,7 +11,7 @@ guarana:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./main
 
 IO.o:
-	gcc -c io.c
+	gcc -c IO.c
 
 historico.o:
 	gcc -c historico.c

@@ -5,6 +5,8 @@
 #define MAX_CHARS 100 //quantidade maxima de caracteres no historico
 #define MAX_PROCEDIMENTOS 10 //quantidade maxima de procedimentos no historico
 
+typedef struct no_{}NO_HIST;
+
 typedef struct no_
 {
     PROCEDIMENTO* procedimento;

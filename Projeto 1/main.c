@@ -3,6 +3,7 @@
 #include "historico.h"
 #include "lista.h"
 #include "procedimento.h"
+#include "IO.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -22,17 +23,17 @@ int main()
     imprime_menu();
     while (true) //isso sempre vai acontecer enquanto o programa roda, a nao ser no caso 8, que ai finaliza a função
     {
-        scanf("%d", comando);
+        scanf("%d", &comando);
         //execução baseada no comando escolhido
         switch (comando)
         {
             case 1: //registrar paciente
             {
                 int id;
-                char *nome;
+                char nome[100];
                 PACIENTE *paciente;
                 printf("Digite o ID do paciente:\n");
-                scanf("%d", id);
+                scanf("%d", &id);
                 if (buscar_paciente(lista, id) == NULL)
                 {
                     printf("Digite o nome do paciente:\n");
@@ -68,7 +69,7 @@ int main()
             {
                 printf("Digite o ID do paciente a ser removido da lista:\n");
                 int id;
-                scanf("%d", id);
+                scanf("%d", &id);
                 if (!apagar_paciente_lista(lista, id))
                 {
                     printf("Não existe um paciente com esse id no sistema\n");
@@ -84,7 +85,7 @@ int main()
             {
                 printf("Digite o ID do paciente a adicionar um procedimento no historico:\n");
                 int id;
-                scanf("%d", id);
+                scanf("%d", &id);
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 if (paciente == NULL)
                 {
@@ -92,7 +93,7 @@ int main()
                 }
                 else
                 {
-                    char *texto;
+                    char texto[10];
                     printf("Digite o procedimento a ser adicionado\n");
                     scanf("%s", texto);
                     PROCEDIMENTO *procedimento = criar_procedimento(texto);
@@ -112,7 +113,7 @@ int main()
             {
                 printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente).\n");
                 int id;
-                scanf("%d", id);
+                scanf("%d", &id);
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 if (paciente == NULL)
                 {
@@ -168,7 +169,7 @@ int main()
                 //printar o historico de um paciente pelo id
                 printf("Digite o id do paciente para ver seu histórico\n");
                 int id;
-                scanf("%d", id);
+                scanf("%d", &id);
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 print_historico(get_historico(paciente));
                 break;
@@ -180,7 +181,7 @@ int main()
                 if (save(lista, fila) == false)
                 {
                     printf("Não foi possível salvar a lista e a fila.\n");
-                    apagar_fila(fila);
+                    apagar_fila(&fila);
                     apagar_lista(&lista);
                 }
                 return 0;

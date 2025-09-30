@@ -2,7 +2,6 @@
     #define LISTA_H
     #include "paciente.h"
     
-    typedef struct no_ NO;
     typedef struct lista_ LISTA;
 
     //funçoes da relação de pacientes: LISTA
