@@ -1,17 +1,19 @@
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "historico.h"
 #include "procedimento.h"
 #define MAX_CHARS 100 //quantidade maxima de caracteres no historico
 #define MAX_PROCEDIMENTOS 10 //quantidade maxima de procedimentos no historico
 
-typedef struct no_{}NO_HIST;
+typedef struct no_ NO_HIST;
 
-typedef struct no_
+struct no_
 {
     PROCEDIMENTO* procedimento;
     NO_HIST* anterior;
-}NO_HIST;
+};
 
 
 typedef struct historico_
@@ -77,7 +79,7 @@ bool retirar_procedimento(HISTORICO* historico) //desempilhar
 
         historico->topo = historico->topo->anterior;
 
-        apagar_procedimento(procedimento);
+        apagar_procedimento(&procedimento);
         p->anterior = NULL;
         free(p);
         p = NULL;

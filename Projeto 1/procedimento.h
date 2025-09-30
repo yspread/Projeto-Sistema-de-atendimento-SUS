@@ -7,4 +7,5 @@
     int procedimento_tamanho(PROCEDIMENTO* p);
     char *get_nome_procedimento(PROCEDIMENTO *p);
     int get_size(PROCEDIMENTO *p);
+    void print_procedimento(PROCEDIMENTO* p);
 #endif

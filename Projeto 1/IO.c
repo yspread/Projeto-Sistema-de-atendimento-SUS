@@ -122,23 +122,19 @@ bool load(LISTA **lista, FILA **fila)
         fread(&nome, sizeof(char), tamanhoNome, fp_lista);
         fread(&id, sizeof(int), 1, fp_lista);
         paciente = criar_paciente(id, nome);
-        if (get_historico(paciente) != NULL)
+        fread(&tamanhoHistorico, sizeof(int), 1, fp_lista);
+        PROCEDIMENTO *procedimentos[tamanhoHistorico]; //vai armazenar os procedimentos lidos, que depois serao empilhados na ordem reversa do vetor 
+        for (int i = 0; i < tamanhoHistorico; i++)
         {
-            fread(&tamanhoHistorico, sizeof(int), 1, fp_lista);
-            get_historico(paciente)->contadorProcedimentos = tamanhoHistorico;
-            PROCEDIMENTO *procedimentos[tamanhoHistorico]; //vai armazenar os procedimentos lidos, que depois serao empilhados na ordem reversa do vetor 
-            for (int i = 0; i < tamanhoHistorico; i++)
-            {
-                int tamanhoProcedimento;
-                fread(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
-                char *nomeProcedimento;
-                fread(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
-                procedimentos[i] = criar_procedimento(nomeProcedimento);
-            }
-            for (int i = tamanhoHistorico - 1; i >= 0 ; i--) //empilhando os procedimentos
-            {
-                inserir_procedimento(get_historico(paciente), procedimentos[i]);
-            }
+            int tamanhoProcedimento;
+            fread(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
+            char *nomeProcedimento;
+            fread(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
+            procedimentos[i] = criar_procedimento(nomeProcedimento);
+        }
+        for (int i = tamanhoHistorico - 1; i >= 0 ; i--) //empilhando os procedimentos
+        {
+            inserir_procedimento(get_historico(paciente), procedimentos[i]);
         }
         inserir_paciente_lista(*lista, paciente);
     }

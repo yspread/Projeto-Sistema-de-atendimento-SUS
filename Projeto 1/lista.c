@@ -43,7 +43,7 @@ void apagar_lista(LISTA **lista) //apaga a lista ao fechar o sistema apos salvar
         {
             auxiliar = (*lista)->inicio; //itero pela lista com o proprio ponteiro inicio
             (*lista)->inicio = (*lista)->inicio->proximo; //passo o inicio para o proximo no
-            apagar_paciente_lista(*lista, get_ID(&auxiliar->paciente)); //apago o paciente contido no no auxiliar
+            apagar_paciente_lista(*lista, get_ID(auxiliar->paciente)); //apago o paciente contido no no auxiliar
             auxiliar->proximo = NULL; //apago o ponteiro
             free (auxiliar);
             auxiliar = NULL;
@@ -123,7 +123,7 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
 
 PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
 {
-    if (lista = NULL && lista_vazia(lista))
+    if (lista == NULL && lista_vazia(lista))
     {
         return NULL;
     }
