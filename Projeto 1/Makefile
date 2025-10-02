@@ -1,8 +1,8 @@
-all:
-	gcc main.c triagem.o historico.o lista.o procedimento.o paciente.o IO.o -Wall -std=c99 -pedantic-errors 
+all:triagem.o historico.o lista.o procedimento.o paciente.o IO.o
+	gcc main.c triagem.o historico.o lista.o procedimento.o paciente.o IO.o -o main -Wall -std=c99 -pedantic-errors 
 
 clean:
-	rm -f *.o *.zip main
+	rm -f *.o *.zip *.bin main
 
 run:
 	./main

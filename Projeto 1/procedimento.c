@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#define MAX_CHARS 100 //quantidade maxima de caracteres no procedimento
 
 typedef struct procedimento_
 {
@@ -20,7 +21,7 @@ PROCEDIMENTO* criar_procedimento(char* str)
 
     aux = malloc(sizeof(PROCEDIMENTO));
 
-    aux->nome = malloc(sizeof(str)); //alocando espaço para copiar o nome do procedimento
+    aux->nome = malloc((strlen(str) + 1) * sizeof(char)); //alocando espaço para copiar o nome do procedimento
     strcpy(aux->nome, str); //copiando o nome fornecido para o nome do procedimento
 
     aux->size = strlen(str); //definindo a quantidade de caracteres em cada procedimento
@@ -33,8 +34,8 @@ void apagar_procedimento(PROCEDIMENTO** p)
     free((*p)->nome);
     (*p)->nome = NULL;
 
-    free(p);
-    p = NULL;
+    free(*p);
+    *p = NULL;
 }
 
 int procedimento_tamanho(PROCEDIMENTO* p)
@@ -57,4 +58,9 @@ char* get_nome_procedimento(PROCEDIMENTO* p) { //funcao para obter o nome do pro
 int get_size(PROCEDIMENTO *p)
 {
     return(p->size);
+}
+
+bool procedimento_cheio(PROCEDIMENTO* p)
+{
+    return p->size > MAX_CHARS;
 }

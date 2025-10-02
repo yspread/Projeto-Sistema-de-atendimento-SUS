@@ -8,4 +8,5 @@
     char *get_nome_procedimento(PROCEDIMENTO *p);
     int get_size(PROCEDIMENTO *p);
     void print_procedimento(PROCEDIMENTO* p);
+    bool procedimento_cheio(PROCEDIMENTO* p);
 #endif

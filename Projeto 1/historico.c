@@ -49,6 +49,10 @@ void apagar_historico(HISTORICO** historico)
 void print_historico(HISTORICO* historico)
 {
     NO_HIST* p = historico->topo;
+    if(p == NULL){
+        printf("Histórico vazio\n");
+        return;
+    }
     while(p != NULL){
         print_procedimento(p->procedimento);
         p = p->anterior;
@@ -57,7 +61,7 @@ void print_historico(HISTORICO* historico)
 
 bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
 {
-    if(historico->ContadorChars + procedimento_tamanho(procedimento) <= 100 && historico->ContadorProcedimentos < 10){
+    if(!historico_cheio(historico) && !procedimento_cheio(procedimento)){
         NO_HIST* p = malloc(sizeof(NO_HIST));
         if(p != NULL){
             p->procedimento = procedimento;
@@ -71,6 +75,11 @@ bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
     return false;
 }
 
+bool historico_cheio(HISTORICO* historico)
+{
+    return historico->ContadorProcedimentos > MAX_PROCEDIMENTOS;
+}
+
 bool retirar_procedimento(HISTORICO* historico) //desempilhar
 {
     if(historico != NULL && !historico_vazio(historico)){
@@ -78,6 +87,9 @@ bool retirar_procedimento(HISTORICO* historico) //desempilhar
         PROCEDIMENTO* procedimento = p->procedimento;
 
         historico->topo = historico->topo->anterior;
+
+        historico->ContadorChars -= procedimento_tamanho(procedimento);
+        historico->ContadorProcedimentos--;
 
         apagar_procedimento(&procedimento);
         p->anterior = NULL;

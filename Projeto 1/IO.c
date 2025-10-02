@@ -23,18 +23,23 @@ bool save(LISTA *lista, FILA *fila)
     {
         return false;
     }
+    int TamanhoLista = list_tamanho(lista);
+    fwrite(&TamanhoLista, sizeof(int), 1, fp_lista);
+    
     paciente = remover_paciente_inicio_lista(lista);
     //pegar os campos da struct paciente
     int id, tamanhoNome;
     char *nome;
     HISTORICO *historico;
+
+    
     while (paciente != NULL)
     {
         //escreve paciente por paciente no arquivo da lista
         tamanhoNome = get_tamanho_nome(paciente);
         fwrite(&tamanhoNome, sizeof(int), 1, fp_lista); //necessario para quando for dar load
         nome = get_nome(paciente);
-        fwrite(&nome, sizeof(char), strlen(nome), fp_lista);
+        fwrite(nome, sizeof(char), strlen(nome), fp_lista);
         id = get_ID(paciente);
         fwrite(&id, sizeof(int), 1, fp_lista);
         historico = get_historico(paciente);
@@ -48,12 +53,16 @@ bool save(LISTA *lista, FILA *fila)
                 int tamanhoProcedimento = get_size(topo);
                 fwrite(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
                 char *nomeProcedimento = get_nome_procedimento(topo);
-                fwrite(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
+                fwrite(nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
                 retirar_procedimento(historico);
                 tamanhoHistorico--;
             }
         }
-        apagar_paciente(paciente); //agora que o paciente esta salvo, é apagado da memoria(apaga o historico junto)
+        else{
+            int tamanhoHistorico = 0;
+            fwrite(&tamanhoHistorico, sizeof(int), 1, fp_lista);
+        }
+        apagar_paciente(&paciente); //agora que o paciente esta salvo, é apagado da memoria(apaga o historico junto)
         paciente = remover_paciente_inicio_lista(lista); //paciente agora é o proximo
     }
     apagar_lista(&lista);
@@ -66,33 +75,14 @@ bool save(LISTA *lista, FILA *fila)
     {
         return false;
     }
-    paciente = chamar_para_atendimento(fila); //aqui o chamar atendimento serve pra remover o primeiro da fila
-    while (paciente != NULL)
+    int TamanhoFila = fila_get_tamanho(fila);
+    fwrite(&TamanhoFila, sizeof(int), 1 ,fp_fila);
+
+    id = chamar_para_atendimento(fila); //aqui o chamar atendimento serve pra remover o primeiro da fila
+    while (id != -1)
     {
-        tamanhoNome = get_tamanho_nome(paciente);
-        fwrite(&tamanhoNome, sizeof(int), 1, fp_lista);
-        nome = get_nome(paciente);
-        fwrite(&nome, sizeof(char), strlen(nome), fp_lista);
-        id = get_ID(paciente);
-        fwrite(&id, sizeof(int), 1, fp_lista);
-        historico = get_historico(paciente);
-        if (historico != NULL)
-        {
-            int tamanhoHistorico = get_tamanho_historico(historico);
-            fwrite(&tamanhoHistorico, sizeof(int), 1, fp_lista);
-            while(tamanhoHistorico > 0)
-            {    
-                PROCEDIMENTO *topo = get_topo(historico);
-                int tamanhoProcedimento = get_size(topo);
-                fwrite(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
-                char *nomeProcedimento = get_nome_procedimento(topo);
-                fwrite(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
-                retirar_procedimento(historico);
-                tamanhoHistorico--;
-            }
-        }
-        apagar_paciente(paciente);
-        paciente = chamar_para_atendimento(fila);
+        fwrite(&id, sizeof(int), 1, fp_fila);
+        id = chamar_para_atendimento(fila);
     }
     apagar_fila(&fila);
     fclose(fp_fila);
@@ -117,26 +107,45 @@ bool load(LISTA **lista, FILA **fila)
     {
         return false;
     }
-    while (fread(&tamanhoNome, sizeof(int), 1, fp_lista) == 1)
+    int TamanhoLista;
+    fread(&TamanhoLista, sizeof(int), 1, fp_lista);
+    for(int j = 0; j < TamanhoLista; j++)
     {
-        fread(&nome, sizeof(char), tamanhoNome, fp_lista);
+        fread(&tamanhoNome, sizeof(int), 1, fp_lista);  // Ler tamanho primeiro
+    
+        nome = malloc((tamanhoNome + 1) * sizeof(char));
+        fread(nome, sizeof(char), tamanhoNome, fp_lista);
+        nome[tamanhoNome] = '\0';
+
         fread(&id, sizeof(int), 1, fp_lista);
         paciente = criar_paciente(id, nome);
+
+        free(nome);
+        nome = NULL;
+
         fread(&tamanhoHistorico, sizeof(int), 1, fp_lista);
         PROCEDIMENTO *procedimentos[tamanhoHistorico]; //vai armazenar os procedimentos lidos, que depois serao empilhados na ordem reversa do vetor 
         for (int i = 0; i < tamanhoHistorico; i++)
         {
             int tamanhoProcedimento;
             fread(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
+
             char *nomeProcedimento;
-            fread(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
+            nomeProcedimento = malloc((tamanhoProcedimento + 1) * sizeof(char));
+            fread(nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
+            nomeProcedimento[tamanhoProcedimento] = '\0';
+
             procedimentos[i] = criar_procedimento(nomeProcedimento);
+            free(nomeProcedimento);
+            nomeProcedimento = NULL;
         }
         for (int i = tamanhoHistorico - 1; i >= 0 ; i--) //empilhando os procedimentos
         {
             inserir_procedimento(get_historico(paciente), procedimentos[i]);
         }
         inserir_paciente_lista(*lista, paciente);
+
+
     }
     fclose(fp_lista);
 
@@ -146,30 +155,12 @@ bool load(LISTA **lista, FILA **fila)
     {
         return false;
     }
-    while (fread(&tamanhoNome, sizeof(int), 1, fp_lista) == 1)
+    int TamanhoFila;
+    fread(&TamanhoFila, sizeof(int), 1, fp_fila);
+    for(int j = 0; j < TamanhoFila; j++)
     {
-        fread(&nome, sizeof(char), tamanhoNome, fp_lista);
-        fread(&id, sizeof(int), 1, fp_lista);
-        paciente = criar_paciente(id, nome);
-        if (get_historico(paciente) != NULL)
-        {
-            fread(&tamanhoHistorico, sizeof(int), 1, fp_lista);
-            get_historico(paciente)->contadorProcedimentos = tamanhoHistorico;
-            PROCEDIMENTO *procedimentos[tamanhoHistorico]; //vai armazenar os procedimentos lidos, que depois serao empilhados na ordem reversa do vetor 
-            for (int i = 0; i < tamanhoHistorico; i++)
-            {
-                int tamanhoProcedimento;
-                fread(&tamanhoProcedimento, sizeof(int), 1, fp_lista);
-                char *nomeProcedimento;
-                fread(&nomeProcedimento, sizeof(char), tamanhoProcedimento, fp_lista);
-                procedimentos[i] = criar_procedimento(nomeProcedimento);
-            }
-            for (int i = tamanhoHistorico - 1; i >= 0 ; i--) //empilhando os procedimentos
-            {
-                inserir_procedimento(get_historico(paciente), procedimentos[i]);
-            }
-        }
-        inserir_paciente_triagem(*fila, paciente);
+        fread(&id, sizeof(int), 1, fp_fila);
+        inserir_paciente_triagem(*fila, id);
     }
     fclose(fp_fila);
 

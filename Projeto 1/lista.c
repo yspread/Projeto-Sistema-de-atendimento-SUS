@@ -61,7 +61,7 @@ bool inserir_paciente_lista(LISTA *lista, PACIENTE *paciente) //adiciona um novo
         NO *novoPaciente = (NO *) malloc (sizeof(NO));
         novoPaciente->paciente = paciente;
         novoPaciente->proximo = NULL; //o novo paciente nao tera ninguem como proximo, por enquanto
-        if (lista->inicio = NULL)
+        if (lista->inicio == NULL)
         {
             lista->inicio = novoPaciente;
         }
@@ -90,7 +90,7 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
             auxiliar = procura;    //enquanto nao se acha a compatibilidade, passa pro proximo ate achar, aonde o procura é o no procurado
             procura = procura->proximo;
         }
-        if (procura != NULL) //significa que o paciente nao foi encontrado (não esta na lista)
+        if (procura != NULL) //significa que o paciente foi encontrado (esta na lista)
         {
             if (procura == lista->inicio) //se o paciente em questao estiver no inicio, mudar o inicio da lista
             {
@@ -107,6 +107,7 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
                 lista->fim = auxiliar; //aponta para o anterior
             }
             lista->tamanho--;
+            apagar_paciente(&procura->paciente);
             free(procura);
             return true;
         }
@@ -123,7 +124,7 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
 
 PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
 {
-    if (lista == NULL && lista_vazia(lista))
+    if (lista == NULL || lista_vazia(lista))
     {
         return NULL;
     }
@@ -159,6 +160,7 @@ PACIENTE *buscar_paciente(LISTA *lista, int ID) //busca um paciente pelo ID forn
             procura = procura->proximo; //passa pro proximo no   
         }
     }    
+    return NULL;
 }
 
 void listar_pacientes(LISTA* lista) //imprime toda a relação de pacientes
@@ -187,4 +189,9 @@ bool lista_vazia(LISTA *lista) //verifica se a lista esta vazia
         return true; //se o inicio apontar para null, nao tem nenhum elemento na lista
     }
     return false;
+}
+
+int list_tamanho(LISTA *lista)
+{
+    return lista->tamanho;
 }

@@ -13,5 +13,6 @@
     bool historico_vazio(HISTORICO* historico);
     int get_tamanho_historico(HISTORICO* historico); //para obter o tamanho do historico
     PROCEDIMENTO *get_topo(HISTORICO *historico);
+    bool historico_cheio(HISTORICO* historico);
     
 #endif

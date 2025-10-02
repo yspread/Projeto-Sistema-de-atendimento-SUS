@@ -34,6 +34,10 @@ int main()
                 PACIENTE *paciente;
                 printf("Digite o ID do paciente:\n");
                 scanf("%d", &id);
+                if(id <= 0){
+                    printf("ID invalido\n");
+                    break;
+                }
                 if (buscar_paciente(lista, id) == NULL)
                 {
                     printf("Digite o nome do paciente:\n");
@@ -55,7 +59,7 @@ int main()
                 }
                 if (fila_cheia(fila) == false)
                 {
-                    inserir_paciente_triagem(fila, paciente);
+                    inserir_paciente_triagem(fila, id);
                     printf("Paciente inserido na fila para a triagem.\n");
                 }
                 else
@@ -81,7 +85,7 @@ int main()
                 break;
             }
 
-            case 3:
+            case 3://adicionar procedimento
             {
                 printf("Digite o ID do paciente a adicionar um procedimento no historico:\n");
                 int id;
@@ -109,7 +113,7 @@ int main()
                 break;
             }
 
-            case 4:
+            case 4://remover procedimento
             {
                 printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente).\n");
                 int id;
@@ -142,14 +146,14 @@ int main()
 
             case 5: //chamar o proximo da fila para atendimento
             {
-                PACIENTE *paciente = chamar_para_atendimento(fila);
-                if (paciente == NULL)
+                int id = chamar_para_atendimento(fila);
+                if (id == -1)
                 {
                     printf("A fila esta vazia.\n");
                 }
                 else
                 {
-                    int id = get_ID(paciente);
+                    PACIENTE* paciente = buscar_paciente(lista, id);
                     char *nome = get_nome(paciente);
                     printf("Paciente chamado para atendimento.\n");
                     printf("Nome: %s", nome);
@@ -171,6 +175,9 @@ int main()
                 int id;
                 scanf("%d", &id);
                 PACIENTE *paciente = buscar_paciente(lista, id);
+                if(paciente == NULL){
+                    printf("Paciente não encontrado\n");
+                }
                 print_historico(get_historico(paciente));
                 break;
             }
@@ -195,14 +202,7 @@ int main()
         }
         imprime_menu(); //pede nova inserção de comando
     }
-    /*
-    INTERFACE DO USUARIO
-    3- ADICIONAR PROCEDIMENTO
-    4- REMOVER PROCEDIMENTO
-        esses 2 sao puxados pelo ID do paciente e adicionar
-        informar oque foi adicionado/deletado
-        informar caso nao exista o procedimento ou se o paciente nao existir
-    */
+    
 }
 
 void imprime_menu()

@@ -14,9 +14,8 @@ typedef struct fila_ {
     int tamanho; //precisamos guardar o tamanho da fila para verificar se ela está cheia ou vazia
 }FILA;
 
-typedef struct no_
-{
-    PACIENTE *paciente;
+typedef struct no_  {
+    int ID;
     NO *proximo;
 }NO;
 
@@ -30,14 +29,14 @@ FILA *criar_fila(void) {
     return (fila);
 }
 
-bool inserir_paciente_triagem(FILA *fila, PACIENTE *paciente)  {
+bool inserir_paciente_triagem(FILA *fila, int ID)  {
     if (fila == NULL || fila_cheia(fila)) {
         return (false); //a fila nao existir ou estiver cheia, entao eh impossivel inserir pacientes
     }
     NO *novo_paciente = (NO *) malloc (sizeof(NO)); //alocando espaco do tamanho da struct NO para o novo_paciente, ja que ele eh um ponteiro para NO
-    novo_paciente->paciente = paciente;
+    novo_paciente->ID = ID;
     novo_paciente->proximo = NULL; //como o novo paciente esta no fim da fila, nao ha proximo paciente para ele
-    if (fila->inicio = NULL) { 
+    if (fila->inicio == NULL) { 
         fila->inicio = novo_paciente; //se a fila estiver vazia, o paciente entrara no inicio da fila
     }
     else {
@@ -48,19 +47,19 @@ bool inserir_paciente_triagem(FILA *fila, PACIENTE *paciente)  {
     return (true);
 }
 
-PACIENTE *chamar_para_atendimento(FILA *fila) { //o paciente que esta no inicio da fila sera chamado para atendimento, entao deve ser tirado da fila e o proximo paciente agora esta no inicio
+int chamar_para_atendimento(FILA *fila) { //o paciente que esta no inicio da fila sera chamado para atendimento, entao deve ser tirado da fila e o proximo paciente agora esta no inicio
     if (fila == NULL || fila_vazia(fila)) {
-        return (NULL); //se a fila nao existe ou esta vazia, nao eh possivel remover pacientes
+        return (-1); //se a fila nao existe ou esta vazia, nao eh possivel remover pacientes
     }
     fila->tamanho--; //a fila reduz em 1 o seu tamanho
     NO *aux = fila->inicio; //vamos criar um ponteiro auxiliar para guardar o NO que tera memoria liberada
-    PACIENTE *paciente_atendido = fila->inicio->paciente; //vamos criar um ponteiro para guardar e retornar as informacoes do paciente que sera removido da fila (atendido)
+    int id_paciente_atendido = fila->inicio->ID;
     fila->inicio = aux->proximo; //o inicio agora eh o antigo proximo
     if (fila_vazia(fila)) {    //se a fila ficou vazia apos o paciente ser atendido, nao ha mais fim da fila
         fila->fim = NULL; //este eh o unico caso em que o atendimento de pacientes altera o fim da fila
     }
     free(aux); //liberamos o NO que era o antigo inicio
-    return(paciente_atendido);
+    return(id_paciente_atendido);
 }
 
 
@@ -107,18 +106,17 @@ int fila_get_tamanho(FILA *fila) { //uma funcao simples para retornar o tamanho 
 
 void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
     if (fila == NULL) { //se a fila nao existe, nao ha o que listar
-        printf("A fila nao existe.");
+        printf("A fila nao existe.\n");
         return;
     }
     if (fila->tamanho == 0)  { //para caso a fila esteja vazia
-        printf("Fila Vazia!"); 
+        printf("Fila Vazia!\n"); 
         return;
     }
     NO *aux = fila->inicio;   //vamos usar um ponteiro auxiliar para percorrer a fila
     while(aux != NULL)  { //o aux vai percorrer a fila até apontar para NULL, significando que nao ha mais pacientes
-        printf("Paciente: %s\nID: %d\n\n", get_nome(aux->paciente), get_ID(aux->paciente));  //impressao do nome e ID do paciente acessado neste momento por aux
+        printf("ID: %d\n\n", aux->ID);  //ID do paciente acessado neste momento por aux
         aux = aux->proximo;  //o ponteiro auxiliar vai apontando para o proximo da fila, ate apontar para NULL, chegando ao fim da fila
     }
     return;
 }
-
