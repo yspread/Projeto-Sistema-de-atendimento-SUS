@@ -34,6 +34,7 @@ bool inserir_paciente_triagem(FILA *fila, int ID)  {
         return (false); //a fila nao existir ou estiver cheia, entao eh impossivel inserir pacientes
     }
     NO *novo_paciente = (NO *) malloc (sizeof(NO)); //alocando espaco do tamanho da struct NO para o novo_paciente, ja que ele eh um ponteiro para NO
+    if(novo_paciente == NULL)return false;
     novo_paciente->ID = ID;
     novo_paciente->proximo = NULL; //como o novo paciente esta no fim da fila, nao ha proximo paciente para ele
     if (fila->inicio == NULL) { 
@@ -72,7 +73,6 @@ void apagar_fila(FILA **fila) //apaga a fila ao fechar o sistema apos salvar no 
         {
             auxiliar = (*fila)->inicio; //itero pela lista com o proprio ponteiro inicio
             (*fila)->inicio = (*fila)->inicio->proximo; //passa o inicio para o proximo no
-            chamar_para_atendimento(*fila); //apaga o paciente contido no no auxiliar
             auxiliar->proximo = NULL; //apaga o ponteiro
             free (auxiliar);
             auxiliar = NULL;
@@ -119,4 +119,15 @@ void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
         aux = aux->proximo;  //o ponteiro auxiliar vai apontando para o proximo da fila, ate apontar para NULL, chegando ao fim da fila
     }
     return;
+}
+
+bool buscar_paciente_fila(FILA* fila, int id)
+{
+    if(fila == NULL)return false;
+    NO* aux = fila->inicio;
+    while(aux != NULL){
+        if(aux->ID == id)return true;
+        aux = aux->proximo;
+    }
+    return false;
 }

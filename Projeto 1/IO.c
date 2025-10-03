@@ -39,7 +39,7 @@ bool save(LISTA *lista, FILA *fila)
         tamanhoNome = get_tamanho_nome(paciente);
         fwrite(&tamanhoNome, sizeof(int), 1, fp_lista); //necessario para quando for dar load
         nome = get_nome(paciente);
-        fwrite(nome, sizeof(char), strlen(nome), fp_lista);
+        fwrite(nome, sizeof(char), tamanhoNome, fp_lista);
         id = get_ID(paciente);
         fwrite(&id, sizeof(int), 1, fp_lista);
         historico = get_historico(paciente);

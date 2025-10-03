@@ -61,6 +61,7 @@ void print_historico(HISTORICO* historico)
 
 bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
 {
+    if(historico == NULL || procedimento == NULL)return false;
     if(!historico_cheio(historico) && !procedimento_cheio(procedimento)){
         NO_HIST* p = malloc(sizeof(NO_HIST));
         if(p != NULL){
@@ -77,7 +78,7 @@ bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
 
 bool historico_cheio(HISTORICO* historico)
 {
-    return historico->ContadorProcedimentos > MAX_PROCEDIMENTOS;
+    return historico->ContadorProcedimentos >= MAX_PROCEDIMENTOS;
 }
 
 bool retirar_procedimento(HISTORICO* historico) //desempilhar

@@ -13,4 +13,5 @@
     bool fila_cheia(FILA *fila);
     bool fila_vazia(FILA *fila);
     void fila_listar(FILA *fila);
+    bool buscar_paciente_fila(FILA* fila, int id);
 #endif

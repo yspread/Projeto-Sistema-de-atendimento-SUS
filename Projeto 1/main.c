@@ -7,8 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 void imprime_menu();
+void clean_buffer();
 
 int main()
 {
@@ -24,6 +26,7 @@ int main()
     while (true) //isso sempre vai acontecer enquanto o programa roda, a nao ser no caso 8, que ai finaliza a função
     {
         scanf("%d", &comando);
+        clean_buffer();
         //execução baseada no comando escolhido
         switch (comando)
         {
@@ -34,6 +37,7 @@ int main()
                 PACIENTE *paciente;
                 printf("Digite o ID do paciente:\n");
                 scanf("%d", &id);
+                clean_buffer();
                 if(id <= 0){
                     printf("ID invalido\n");
                     break;
@@ -41,7 +45,8 @@ int main()
                 if (buscar_paciente(lista, id) == NULL)
                 {
                     printf("Digite o nome do paciente:\n");
-                    scanf("%s", nome);
+                    fgets(nome, 100, stdin);
+                    nome[strcspn(nome, "\n")] = '\0';
                     paciente = criar_paciente(id, nome);
                     if (paciente == NULL)
                     {
@@ -59,8 +64,13 @@ int main()
                 }
                 if (fila_cheia(fila) == false)
                 {
-                    inserir_paciente_triagem(fila, id);
-                    printf("Paciente inserido na fila para a triagem.\n");
+                    if(buscar_paciente_fila(fila, id)){
+                        printf("Paciente já está na fila.\n");
+                    }
+                    else{
+                        inserir_paciente_triagem(fila, id);
+                        printf("Paciente inserido na fila para a triagem.\n");
+                    }
                 }
                 else
                 {
@@ -74,13 +84,19 @@ int main()
                 printf("Digite o ID do paciente a ser removido da lista:\n");
                 int id;
                 scanf("%d", &id);
-                if (!apagar_paciente_lista(lista, id))
-                {
-                    printf("Não existe um paciente com esse id no sistema\n");
+                clean_buffer();
+                if(buscar_paciente_fila(fila, id)){
+                    printf("Paciente está na fila.\n");
                 }
-                else
-                {
-                    printf("Paciente removido do sistema.\n");
+                else {
+                    if (!apagar_paciente_lista(lista, id))
+                    {
+                        printf("Não existe um paciente com esse id no sistema\n");
+                    }
+                    else
+                    {
+                        printf("Paciente removido do sistema.\n");
+                    }
                 }
                 break;
             }
@@ -90,6 +106,7 @@ int main()
                 printf("Digite o ID do paciente a adicionar um procedimento no historico:\n");
                 int id;
                 scanf("%d", &id);
+                clean_buffer();
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 if (paciente == NULL)
                 {
@@ -97,9 +114,10 @@ int main()
                 }
                 else
                 {
-                    char texto[10];
+                    char texto[100];
                     printf("Digite o procedimento a ser adicionado\n");
-                    scanf("%s", texto);
+                    fgets(texto, 100, stdin);
+                    texto[strcspn(texto, "\n")] = '\0';
                     PROCEDIMENTO *procedimento = criar_procedimento(texto);
                     if (inserir_procedimento(get_historico(paciente), procedimento))
                     {
@@ -118,6 +136,7 @@ int main()
                 printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente).\n");
                 int id;
                 scanf("%d", &id);
+                clean_buffer();
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 if (paciente == NULL)
                 {
@@ -156,15 +175,15 @@ int main()
                     PACIENTE* paciente = buscar_paciente(lista, id);
                     char *nome = get_nome(paciente);
                     printf("Paciente chamado para atendimento.\n");
-                    printf("Nome: %s", nome);
-                    printf("ID: %d", id);
+                    printf("Nome: %s\n", nome);
+                    printf("ID: %d\n", id);
                 }
                 break;
             }
             case 6:
             {
                 //printar a fila de espera
-                fila_listar(fila);
+                fila_listar(fila);                
                 break;
             }
 
@@ -174,11 +193,12 @@ int main()
                 printf("Digite o id do paciente para ver seu histórico\n");
                 int id;
                 scanf("%d", &id);
+                clean_buffer();
                 PACIENTE *paciente = buscar_paciente(lista, id);
                 if(paciente == NULL){
                     printf("Paciente não encontrado\n");
                 }
-                print_historico(get_historico(paciente));
+                else print_historico(get_historico(paciente));
                 break;
             }
 
@@ -207,6 +227,8 @@ int main()
 
 void imprime_menu()
 {
+    printf("\nPressione enter para continuar\n");
+    clean_buffer();
     printf("Digite o valor correspondente a operacao que você deseja realizar:\n");
     printf("1. Registrar paciente\n");
     printf("2. Registrar óbito de paciente\n");
@@ -217,4 +239,10 @@ void imprime_menu()
     printf("7. Mostrar histórico do paciente\n");
     printf("8. Sair\n\n");
     return;
+}
+
+void clean_buffer()
+{
+    char c;
+    while((c = getchar()) != '\n' && c != EOF);
 }

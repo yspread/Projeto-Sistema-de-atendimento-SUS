@@ -43,7 +43,7 @@ void apagar_lista(LISTA **lista) //apaga a lista ao fechar o sistema apos salvar
         {
             auxiliar = (*lista)->inicio; //itero pela lista com o proprio ponteiro inicio
             (*lista)->inicio = (*lista)->inicio->proximo; //passo o inicio para o proximo no
-            apagar_paciente_lista(*lista, get_ID(auxiliar->paciente)); //apago o paciente contido no no auxiliar
+            apagar_paciente(&(auxiliar->paciente)); //apago o paciente contido no no auxiliar
             auxiliar->proximo = NULL; //apago o ponteiro
             free (auxiliar);
             auxiliar = NULL;
@@ -59,6 +59,7 @@ bool inserir_paciente_lista(LISTA *lista, PACIENTE *paciente) //adiciona um novo
     {
         //criando o no que se refere ao paciente inserido, para coloca-lo na cadeia
         NO *novoPaciente = (NO *) malloc (sizeof(NO));
+        if(novoPaciente == NULL)return false;
         novoPaciente->paciente = paciente;
         novoPaciente->proximo = NULL; //o novo paciente nao tera ninguem como proximo, por enquanto
         if (lista->inicio == NULL)
@@ -137,6 +138,12 @@ PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
         lista->inicio->proximo = NULL;
         free(lista->inicio);
         lista->inicio = auxiliar;
+
+        lista->tamanho--;
+
+        if(lista->inicio == NULL){
+            lista->fim = NULL;
+        }
         return (pacienteAux);
     }
 }

@@ -62,5 +62,5 @@ int get_size(PROCEDIMENTO *p)
 
 bool procedimento_cheio(PROCEDIMENTO* p)
 {
-    return p->size > MAX_CHARS;
+    return p->size >= MAX_CHARS;
 }
