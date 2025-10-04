@@ -81,12 +81,12 @@ int main()
 
             case 2: //registrar obito do paciente
             {
-                printf("Digite o ID do paciente a ser removido da lista:\n");
+                printf("Digite o ID do paciente que faleceu e será removido da lista:\n");
                 int id;
                 scanf("%d", &id);
                 clean_buffer();
                 if(buscar_paciente_fila(fila, id)){
-                    printf("Paciente está na fila.\n");
+                    printf("Paciente está na fila e não pode ter falecido.\n");
                 }
                 else {
                     if (!apagar_paciente_lista(lista, id))
@@ -95,7 +95,7 @@ int main()
                     }
                     else
                     {
-                        printf("Paciente removido do sistema.\n");
+                        printf("Óbito registrado. Paciente removido do sistema.\n");
                     }
                 }
                 break;
