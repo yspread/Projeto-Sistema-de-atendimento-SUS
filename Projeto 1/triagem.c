@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#define TAM_MAX_FILA 100
 
 typedef struct fila_ {
     NO *inicio; //ponteiros apontando para o inicio e fim da fila
@@ -92,7 +93,7 @@ bool fila_vazia(FILA *fila)  {
 } //e se a fila nao existir?
 
 bool fila_cheia(FILA *fila) {
-    if (fila != NULL && fila-> tamanho == 100) { //se a fila existir e tiver 100 pacientes, entao ela esta cheia
+    if (fila != NULL && fila-> tamanho >= TAM_MAX_FILA) { //se a fila existir e tiver 100 pacientes, entao ela esta cheia
         return (true);
     }
     else {
@@ -121,7 +122,7 @@ void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
     return;
 }
 
-bool buscar_paciente_fila(FILA* fila, int id)
+bool buscar_paciente_fila(FILA* fila, int id) //verifica se um paciente ja esta na fila
 {
     if(fila == NULL)return false;
     NO* aux = fila->inicio;

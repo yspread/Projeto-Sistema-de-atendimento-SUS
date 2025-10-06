@@ -38,24 +38,20 @@ void apagar_procedimento(PROCEDIMENTO** p)
     *p = NULL;
 }
 
-int procedimento_tamanho(PROCEDIMENTO* p)
-{
-    return p->size;
-}
-
 void print_procedimento(PROCEDIMENTO* p)
 {
     printf("%s\n", p->nome);
 }
 
-char* get_nome_procedimento(PROCEDIMENTO* p) { //funcao para obter o nome do procedimento
+char* get_nome_procedimento(PROCEDIMENTO* p)//funcao para acessar o nome do procedimento
+{
     if (p != NULL) {
         return p->nome;
     }
     return NULL;
 }
 
-int get_size(PROCEDIMENTO *p)
+int get_size_procedimento(PROCEDIMENTO *p) //acessar o tamanho do procedimeto
 {
     return(p->size);
 }

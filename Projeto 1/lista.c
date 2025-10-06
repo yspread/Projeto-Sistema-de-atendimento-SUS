@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct lista_  //lista encadeada, talvez seja duplamente
+typedef struct lista_  //lista encadeada
 {
     NO *inicio;  //o ponteiro que aponta pro inicio é basicamente a lista em si
     NO *fim;
@@ -19,7 +19,6 @@ typedef struct no_
 {
     PACIENTE *paciente;
     NO *proximo;
-    //talvez eu faça duplamente encadeada com NO *anterior
 }NO;
 
 LISTA *criar_lista() //funcao para alocar memoria para a lista
@@ -37,14 +36,14 @@ LISTA *criar_lista() //funcao para alocar memoria para a lista
 void apagar_lista(LISTA **lista) //apaga a lista ao fechar o sistema apos salvar no disco os dados
 {
     NO *auxiliar;
-    if ((*lista != NULL) && (!lista_vazia(*lista))) //se a lista nao esta vazia
+    if ((*lista != NULL) && (!lista_vazia(*lista)))
     {
-        while ((*lista)->inicio != NULL) //vou percorrer a lista do inicio ao fim, itera enquanto o fim nao foi apagado ainda
+        while ((*lista)->inicio != NULL) 
         {
-            auxiliar = (*lista)->inicio; //itero pela lista com o proprio ponteiro inicio
-            (*lista)->inicio = (*lista)->inicio->proximo; //passo o inicio para o proximo no
-            apagar_paciente(&(auxiliar->paciente)); //apago o paciente contido no no auxiliar
-            auxiliar->proximo = NULL; //apago o ponteiro
+            auxiliar = (*lista)->inicio; 
+            (*lista)->inicio = (*lista)->inicio->proximo;
+            apagar_paciente(&(auxiliar->paciente));
+            auxiliar->proximo = NULL;
             free (auxiliar);
             auxiliar = NULL;
         }
@@ -123,7 +122,7 @@ bool apagar_paciente_lista(LISTA *lista, int ID) //apagar um paciente da lista, 
     }
 }
 
-PACIENTE *remover_paciente_inicio_lista(LISTA *lista)
+PACIENTE *remover_paciente_inicio_lista(LISTA *lista) //fiz uma funcao para remover diretamente do inicio para usar na funcao save
 {
     if (lista == NULL || lista_vazia(lista))
     {
@@ -183,7 +182,7 @@ void listar_pacientes(LISTA* lista) //imprime toda a relação de pacientes
         procura = lista->inicio;
         while(procura != NULL)
         {
-            printf("{\nPACIENTE: %s\nID: %d\n}\n", get_nome(procura->paciente), get_ID(procura->paciente));
+            printf("{\nPACIENTE: %s\nID: %d\n}\n", get_nome_paciente(procura->paciente), get_ID(procura->paciente));
             procura = procura->proximo; //passa para o proximo
         }
     }
@@ -198,7 +197,7 @@ bool lista_vazia(LISTA *lista) //verifica se a lista esta vazia
     return false;
 }
 
-int list_tamanho(LISTA *lista)
+int get_lista_tamanho(LISTA *lista)
 {
     return lista->tamanho;
 }

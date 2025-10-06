@@ -35,7 +35,7 @@ int main()
                 int id;
                 char nome[100];
                 PACIENTE *paciente;
-                printf("Digite o ID do paciente:\n");
+                printf("Digite o ID do paciente:");
                 scanf("%d", &id);
                 clean_buffer();
                 if(id <= 0){
@@ -44,7 +44,7 @@ int main()
                 }
                 if (buscar_paciente(lista, id) == NULL)
                 {
-                    printf("Digite o nome do paciente:\n");
+                    printf("Digite o nome do paciente:");
                     fgets(nome, 100, stdin);
                     nome[strcspn(nome, "\n")] = '\0';
                     paciente = criar_paciente(id, nome);
@@ -81,12 +81,12 @@ int main()
 
             case 2: //registrar obito do paciente
             {
-                printf("Digite o ID do paciente que faleceu e será removido da lista:\n");
+                printf("Digite o ID do paciente que faleceu e será removido da lista:");
                 int id;
                 scanf("%d", &id);
                 clean_buffer();
                 if(buscar_paciente_fila(fila, id)){
-                    printf("Paciente está na fila e não pode ter falecido.\n");
+                    printf("Paciente está na fila, nao é possivel registrar seu óbito.\n");
                 }
                 else {
                     if (!apagar_paciente_lista(lista, id))
@@ -103,7 +103,7 @@ int main()
 
             case 3://adicionar procedimento
             {
-                printf("Digite o ID do paciente a adicionar um procedimento no historico:\n");
+                printf("Digite o ID do paciente a adicionar um procedimento no historico:");
                 int id;
                 scanf("%d", &id);
                 clean_buffer();
@@ -115,7 +115,7 @@ int main()
                 else
                 {
                     char texto[100];
-                    printf("Digite o procedimento a ser adicionado\n");
+                    printf("Digite o procedimento a ser adicionado:");
                     fgets(texto, 100, stdin);
                     texto[strcspn(texto, "\n")] = '\0';
                     PROCEDIMENTO *procedimento = criar_procedimento(texto);
@@ -133,7 +133,7 @@ int main()
 
             case 4://remover procedimento
             {
-                printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente).\n");
+                printf("Digite o ID do paciente a remover um procedimento de seu historico (sera removido o procedimento mais recente):");
                 int id;
                 scanf("%d", &id);
                 clean_buffer();
@@ -173,7 +173,7 @@ int main()
                 else
                 {
                     PACIENTE* paciente = buscar_paciente(lista, id);
-                    char *nome = get_nome(paciente);
+                    char *nome = get_nome_paciente(paciente);
                     printf("Paciente chamado para atendimento.\n");
                     printf("Nome: %s\n", nome);
                     printf("ID: %d\n", id);
@@ -190,7 +190,7 @@ int main()
             case 7:
             {
                 //printar o historico de um paciente pelo id
-                printf("Digite o id do paciente para ver seu histórico\n");
+                printf("Digite o id do paciente para ver seu histórico:");
                 int id;
                 scanf("%d", &id);
                 clean_buffer();

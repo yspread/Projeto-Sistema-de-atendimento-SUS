@@ -13,6 +13,6 @@
     void listar_pacientes(LISTA* lista);
     bool lista_vazia(LISTA *lista); //necessaria para verificaçao na função apagar_lista
     PACIENTE *remover_paciente_inicio_lista(LISTA *lista); //necessario para a função save load
-    int list_tamanho(LISTA *lista);
+    int get_lista_tamanho(LISTA *lista);
     
 #endif

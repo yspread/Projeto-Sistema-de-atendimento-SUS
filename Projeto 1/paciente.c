@@ -26,17 +26,17 @@ HISTORICO *get_historico(PACIENTE *paciente) //função para retornar o historic
     return (paciente->historico);
 }
 
-char *get_nome(PACIENTE *paciente) //função para retornar o nome do paciente
+char *get_nome_paciente(PACIENTE *paciente) //função para retornar o nome do paciente
 {
     return (paciente->nome);
 }
 
-int get_tamanho_nome(PACIENTE *paciente)
+int get_tamanho_nome_paciente(PACIENTE *paciente) //retorna o tamanho do nome do paciente
 {
     return (paciente->tamanhoNome);
 }
 
-bool apagar_paciente(PACIENTE **paciente)
+bool apagar_paciente(PACIENTE **paciente) //necessario para registrar obito
 {
     if (*paciente != NULL)
     {
@@ -51,7 +51,7 @@ bool apagar_paciente(PACIENTE **paciente)
     return false;
 }
 
-PACIENTE* criar_paciente(int id, char *nome) //funcao para criar um paciente
+PACIENTE* criar_paciente(int id, char *nome) //cria um paciente
 {
     PACIENTE *paciente;
 

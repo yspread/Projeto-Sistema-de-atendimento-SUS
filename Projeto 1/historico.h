@@ -11,7 +11,7 @@
     bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento); //empilhar
     bool retirar_procedimento(HISTORICO* historico); //desempilhar
     bool historico_vazio(HISTORICO* historico);
-    int get_tamanho_historico(HISTORICO* historico); //para obter o tamanho do historico
+    int get_tamanho_historico(HISTORICO* historico); //para acessar o tamanho do historico
     PROCEDIMENTO *get_topo(HISTORICO *historico);
     bool historico_cheio(HISTORICO* historico);
     

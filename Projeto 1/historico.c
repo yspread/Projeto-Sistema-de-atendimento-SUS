@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #include "historico.h"
 #include "procedimento.h"
-#define MAX_CHARS 100 //quantidade maxima de caracteres no historico
 #define MAX_PROCEDIMENTOS 10 //quantidade maxima de procedimentos no historico
 
 typedef struct no_ NO_HIST;
 
 struct no_
 {
+    //no para a implementacao da pilha encadeada
     PROCEDIMENTO* procedimento;
     NO_HIST* anterior;
 };
@@ -18,24 +18,22 @@ struct no_
 
 typedef struct historico_
 {
-    int ContadorChars; //contador para ver se a quantidade de char do historico estourou o limite (100)
     int ContadorProcedimentos; //contador para ver se a quantidade de procedimentos do historico estourou o limite (10)
     NO_HIST* topo;
 }HISTORICO;
 
-HISTORICO* criar_historico()
+HISTORICO* criar_historico() //aloca memoria para o historico
 {
     HISTORICO* historico = malloc(sizeof(HISTORICO));
     if(historico != NULL){
         historico->topo = NULL;
-        historico->ContadorChars = 0;
         historico->ContadorProcedimentos = 0;
         return historico;
     }
     return NULL;
 }
 
-void apagar_historico(HISTORICO** historico)
+void apagar_historico(HISTORICO** historico) //apaga o historico (para quando for apagar o paciente)
 {
     if((*historico) != NULL && (!historico_vazio(*historico))){
         while((*historico)->topo != NULL){
@@ -59,7 +57,7 @@ void print_historico(HISTORICO* historico)
     }
 }
 
-bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
+bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento) //empilhar
 {
     if(historico == NULL || procedimento == NULL)return false;
     if(!historico_cheio(historico) && !procedimento_cheio(procedimento)){
@@ -68,7 +66,6 @@ bool inserir_procedimento(HISTORICO* historico, PROCEDIMENTO* procedimento)
             p->procedimento = procedimento;
             p->anterior = historico->topo;
             historico->topo = p;
-            historico->ContadorChars += procedimento_tamanho(procedimento);
             historico->ContadorProcedimentos++;
             return true;
         }
@@ -89,7 +86,6 @@ bool retirar_procedimento(HISTORICO* historico) //desempilhar
 
         historico->topo = historico->topo->anterior;
 
-        historico->ContadorChars -= procedimento_tamanho(procedimento);
         historico->ContadorProcedimentos--;
 
         apagar_procedimento(&procedimento);
