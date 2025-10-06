@@ -183,7 +183,7 @@ int main()
             case 6:
             {
                 //printar a fila de espera
-                fila_listar(fila);                
+                fila_listar(fila, lista);                
                 break;
             }
 

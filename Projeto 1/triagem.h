@@ -1,6 +1,7 @@
 #ifndef TRIAGEM_H
     #define TRIAGEM_H
-
+    #include "lista.h"
+    
     typedef struct fila_ FILA;
     typedef struct no_ NO;
 
@@ -12,6 +13,6 @@
     int fila_get_tamanho(FILA *fila);
     bool fila_cheia(FILA *fila);
     bool fila_vazia(FILA *fila);
-    void fila_listar(FILA *fila);
+    void fila_listar(FILA *fila, LISTA *lista);
     bool buscar_paciente_fila(FILA* fila, int id);
 #endif

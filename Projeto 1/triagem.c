@@ -105,7 +105,7 @@ int fila_get_tamanho(FILA *fila) { //uma funcao simples para retornar o tamanho 
     return (fila->tamanho); 
 }
 
-void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
+void fila_listar(FILA *fila, LISTA *lista)  {  //função que lista todos os pacientes na fila
     if (fila == NULL) { //se a fila nao existe, nao ha o que listar
         printf("A fila nao existe.\n");
         return;
@@ -116,7 +116,9 @@ void fila_listar(FILA *fila)  {  //função que lista todos os pacientes na fila
     }
     NO *aux = fila->inicio;   //vamos usar um ponteiro auxiliar para percorrer a fila
     while(aux != NULL)  { //o aux vai percorrer a fila até apontar para NULL, significando que nao ha mais pacientes
-        printf("ID: %d\n\n", aux->ID);  //ID do paciente acessado neste momento por aux
+        PACIENTE *paciente = buscar_paciente(lista, aux->ID);
+        char *nome = get_nome_paciente(paciente);
+        printf("Nome: %s\nID: %d\n\n",nome, aux->ID);
         aux = aux->proximo;  //o ponteiro auxiliar vai apontando para o proximo da fila, ate apontar para NULL, chegando ao fim da fila
     }
     return;
