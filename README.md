@@ -8,7 +8,7 @@ Eric Costa Lopes: 17070779
 ## Visão Geral
 
 Nesse Sistema de Atendimento do SUS, nós precisamos organizar dados sobre os pacientes, os procedimentos que os envolvem, etc. Cada sessão desse sistema (paciente, fila/triagem, lista, historico, procedimento, procedimento de salvamento) compõe um TAD. Guardamos as informações de cada paciente na struct PACIENTE, o que inclui seu nome, ID, tamanho do nome e um ponteiro para seu histórico. Isso facilita o acesso aos dados de cada paciente, que serão usados aos longo do trabalho inteiro.
-O projeto simula um serviço de atendimento médico de pacientes em um ambiente de Pronto Socorro (PS), por meio de Tipos Abstratos de Dados (TADs) como listas, filas e pilhas. Escolhemos fazer implementar todas as estruturas de dados de modo simplesmente encadeado a fim de padronizar toda a implementação do sistema e ter um gerenciamento de memória mais eficiente.
+O projeto simula um serviço de atendimento médico de pacientes em um ambiente de Pronto Socorro (PS), por meio de Tipos Abstratos de Dados (TADs) como listas, filas e pilhas. Escolhemos implementar todas as estruturas de dados de modo simplesmente encadeado a fim de padronizar toda a implementação do sistema e ter um gerenciamento de memória mais eficiente.
 
 ## Lista de Pacientes
 
